@@ -6,7 +6,7 @@ use serenity::prelude::*;
 
 pub struct PingCommand;
 impl SlashCommand for PingCommand {
-    fn run(&mut self, ctx: &Context, interact: &ApplicationCommandInteraction, options: &[CommandDataOption]) -> String {
+    fn run(&self, ctx: &Context, interact: &ApplicationCommandInteraction, options: &[CommandDataOption]) -> String {
         format!("Hey, {}", interact.user.name).to_string()
     }
 
@@ -16,7 +16,6 @@ impl SlashCommand for PingCommand {
 }
 
 pub trait SlashCommand {
-    fn run(&mut self, ctx: &Context, interact: &ApplicationCommandInteraction, options: &[CommandDataOption]) -> String;
-
+    fn run(&self, ctx: &Context, interact: &ApplicationCommandInteraction, options: &[CommandDataOption]) -> String;
     fn register<'a>(&'a self, command: &'a mut CreateApplicationCommand) -> &mut CreateApplicationCommand;
 }
