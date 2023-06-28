@@ -11,7 +11,7 @@ impl SlashCommand for PingCommand {
     }
 
     fn register<'a>(&'a self, command: &'a mut CreateApplicationCommand) -> &mut CreateApplicationCommand {
-        command.name("ping").description("A ping command")
+        command.name("ping").description("PONG")
     }
 }
 

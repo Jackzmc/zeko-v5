@@ -6,6 +6,7 @@ use serde_json::json;
 use serenity::{async_trait, model};
 use serenity::model::channel::Channel;
 use serenity::Client;
+use serenity::http::CacheHttp;
 use serenity::model::prelude::*;
 use serenity::prelude::*;
 use crate::commands::ping::{PingCommand, SlashCommand};
@@ -24,6 +25,11 @@ impl EventHandler for Handler {
     async fn ready(&self, ctx: Context, ready: Ready) {
         let guild_id = GuildId(std::env::var("GUILD_ID").expect("Expected GUILD_ID in environment").parse().expect("GUILD_ID must be an integer"));
         println!("[Discord] Connected as {}", ready.user.name);
+        for cmd in COMMANDS.get().unwrap().iter() {
+            guild_id.set_application_commands(ctx.http(), |commands| {
+                commands.create_application_command(|command| cmd.register(command))
+            }).await.unwrap();
+        }
         // let commands = guild_id.set_application_commands(&ctx.http, |commands| {
         //     commands
         //         .create_application_command(|command| commands::ping::register(command))
