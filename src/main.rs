@@ -42,12 +42,8 @@ impl EventHandler for Handler {
             // let data = app_data.get::<BotDataContainer>().unwrap();
             // let mut lock = data.lock().await;
             for cmd in COMMANDS.get().unwrap().iter() {
-                let content = cmd.run(&ctx, &interact_cmd, &interact_cmd.data.options);
-                // let content = commands::ping::run(&ctx, &interaction, &cmd.data.options);
-                interact_cmd.create_interaction_response(&ctx.http, |r|
-                    r.kind(model::application::interaction::InteractionResponseType::ChannelMessageWithSource)
-                        .interaction_response_data(|message| message.content(content))
-                ).await.ok();
+
+                cmd.run(&ctx, &interact_cmd, &interact_cmd.data.options).await;
             }
 
         }
